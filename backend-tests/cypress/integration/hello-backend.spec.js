@@ -147,4 +147,42 @@ describe('Test suite', () => {
         }))
     })
 
+
+
+    it.only('GET request towards /api/client/{lastID}', () => {
+        // Authentication; Getting a valid token
+        cy.authenticate().then((response => {
+            // Get request to get all clients in order to extract the lastID
+            cy.request({
+                method: 'GET', 
+                url: 'http://localhost:3000/api/clients', 
+                headers: {
+                    'X-User-Auth':JSON.stringify(Cypress.env().loginToken), 
+                    'Content-Type': 'application/json'
+                }
+            }).then((response =>{
+                expect(response.status).to.eq(200)
+                //Save the id of the last client into a variable
+                let lastID = response.body[response.body.length -1].id
+                cy.log(lastID)
+
+                //The PUT / DELETE request towards the client with the lastID.
+                // The URL is build by appending the variable lastID in the end of the endpoint
+                cy.request({
+                    method: 'GET', 
+                    url: 'http://localhost:3000/api/client/'+lastID, 
+                    headers: {
+                        'X-User-Auth':JSON.stringify(Cypress.env().loginToken), 
+                        'Content-Type': 'application/json'
+                    }
+                }).then((response => {
+                    expect(response.status).to.eq(200)
+                    cy.log(JSON.stringify(response.body))
+                }))
+
+            }))
+        }))
+       
+    })
+
 })
