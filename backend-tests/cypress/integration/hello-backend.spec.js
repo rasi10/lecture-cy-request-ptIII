@@ -166,7 +166,7 @@ describe('Test suite', () => {
                 let lastID = response.body[response.body.length -1].id
                 cy.log(lastID)
 
-                //The PUT / DELETE request towards the client with the lastID.
+                //The GET / PUT / DELETE request towards the client with the lastID.
                 // The URL is build by appending the variable lastID in the end of the endpoint
                 cy.request({
                     method: 'GET', 
