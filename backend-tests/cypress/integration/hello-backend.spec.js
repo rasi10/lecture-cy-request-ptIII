@@ -17,4 +17,5 @@ describe('Test suite', () => {
             client.performLogout()
         }))
     })
+
 })
